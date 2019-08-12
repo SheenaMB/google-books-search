@@ -28,8 +28,8 @@ class App extends Component {
     event.preventDefault();
     API.getBooks(this.state.bookSearch)
       .then(res => {
-        console.log(res.data);
-        this.setState({ books: res.data });
+        console.log('results', res.data.items[0].volumeInfo.title);
+        this.setState({ books: res.data.items });
       })
       .catch(err => console.log(err));
   };
@@ -69,17 +69,21 @@ class App extends Component {
           </Row>
           <Row>
             <Col size="xs-12">
+              {!this.state.books.length ?(
+                <h1 className="text-center"> No Books to Display</h1>
+              ) : (
               <BookList>
                 {this.state.books.map((book, index, books) => (
                   <BookListItem
                   key={books[index]}
-                  title={book.title}
+                  title={book.volumeInfo.title}
                   href = {book.href}
                   thumbnail = {book.thumbnail}
                   />
-
-                ))}
+              ))
+              }
               </BookList>
+               )}
             </Col>
           </Row>
         </Container>
