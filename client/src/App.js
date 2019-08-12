@@ -28,7 +28,7 @@ class App extends Component {
     event.preventDefault();
     API.getBooks(this.state.bookSearch)
       .then(res => {
-        console.log('results', res.data.items[0].volumeInfo.title);
+        console.log('results', res.data.items[0].volumeInfo);
         this.setState({ books: res.data.items });
       })
       .catch(err => console.log(err));
@@ -77,8 +77,10 @@ class App extends Component {
                   <BookListItem
                   key={books[index]}
                   title={book.volumeInfo.title}
-                  href = {book.href}
-                  thumbnail = {book.thumbnail}
+                  author={book.volumeInfo.authors[0]}
+                  description={book.volumeInfo.description}
+                  href={book.volumeInfo.infoLink}
+                  thumbnail = {book.volumeInfo.imageLinks.smallThumbnail}
                   />
               ))
               }

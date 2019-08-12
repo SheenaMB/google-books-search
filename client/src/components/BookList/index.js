@@ -20,15 +20,14 @@ export function BookListItem(props) {
           </Col>
           <Col size="xs-8 sm-9">
             <h3>{props.title}</h3>
-            <p>
-              {/* {props.ingredients} */}
-              </p>
+            <p>{props.author}</p>
+            <p>{props.description}</p>      
             <a
               rel="noreferrer noopener"
               target="_blank"
               href={props.href}
             >
-              Go to recipe!
+              Go to book!
             </a>
           </Col>
         </Row>
