@@ -37,8 +37,8 @@ class App extends Component {
   saveBook = (value) => {
     console.log('Saving book', value)
     API.saveBooks(value)
-      .then(res => console.log(res))
-    // this.setState({ savedBooks: res.data.items });
+      .then(res => console.log("booked saved successfully", res))
+    // this.setState({ savedBooks: res.data });
   }
 
   render() {

@@ -2,6 +2,8 @@ require ("dotenv").config();
 const axios = require("axios");
 const router = require("express").Router();
 let apiKey = process.env.API_KEY;
+const booksController = require("../controllers/booksController");
+
 
 
 // Matches '/api'
@@ -16,8 +18,8 @@ router.get("/books", (req, res) => {
     .catch(err => res.status(422).json(err));
 });
 
-router.post("/savedbooks", (req, res) => {
-  console.log("inside api routes savedbooks", req.body);
-});
+router.route("/savedbooks")
+ .post(booksController.create);
+
 
 module.exports = router;

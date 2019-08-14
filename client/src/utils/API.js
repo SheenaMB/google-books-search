@@ -5,10 +5,9 @@ export default {
   getBooks: function(query) {
     return axios.get("/api/books", { params: { q: query } });
   },
+  
   saveBooks: function(book) {
-    
     const {title, author, description} = book;
-    console.log("\ninside saveBooks method", title, author, description);
     return axios.post("/api/savedbooks", { title, author, description });
   }
 };
