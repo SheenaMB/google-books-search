@@ -2,16 +2,17 @@ import React, { Component } from "react";
 import Jumbotron from "./components/Jumbotron";
 import Nav from "./components/Nav";
 import Input from "./components/Input";
-import Button from "./components/Button";
+import {SearchButton, SaveBtn} from "./components/Button";
 import API from "./utils/API";
 import { BookList, BookListItem } from "./components/BookList";
 import { Container, Row, Col } from "./components/Grid";
+console.log('API', API.saveBooks);
 
 class App extends Component {
   state = {
     books: [],
     bookSearch: "",
-    savedBooks: ""
+    savedBooks: []
   };
 
   handleInputChange = event => {
@@ -28,11 +29,17 @@ class App extends Component {
     event.preventDefault();
     API.getBooks(this.state.bookSearch)
       .then(res => {
-        console.log('results', res.data.items[0].volumeInfo);
         this.setState({ books: res.data.items });
       })
       .catch(err => console.log(err));
   };
+
+  saveBook = (value) => {
+    console.log('Saving book', value)
+    API.saveBooks(value)
+      .then(res => console.log(res))
+    // this.setState({ savedBooks: res.data.items });
+  }
 
   render() {
     return (
@@ -54,13 +61,13 @@ class App extends Component {
                       />
                     </Col>
                     <Col size="xs-3 sm-2">
-                      <Button
+                      <SearchButton
                         onClick={this.handleFormSubmit}
                         type="success"
                         className="input-lg"
                       >
                         Search
-                      </Button>
+                      </SearchButton>
                     </Col>
                   </Row>
                 </Container>
@@ -73,15 +80,28 @@ class App extends Component {
                 <h1 className="text-center"> No Books to Display</h1>
               ) : (
               <BookList>
-                {this.state.books.map((book, index, books) => (
+                {this.state.books.map((book) => (
                   <BookListItem
-                  key={books[index]}
+                  key={book.id}
                   title={book.volumeInfo.title}
                   author={book.volumeInfo.authors[0]}
                   description={book.volumeInfo.description}
                   href={book.volumeInfo.infoLink}
                   thumbnail = {book.volumeInfo.imageLinks.smallThumbnail}
-                  />
+                  >
+                    <SaveBtn 
+                      onClick={this.saveBook}
+                      title={book.volumeInfo.title}
+                      author={book.volumeInfo.authors[0]}
+                      description={book.volumeInfo.description}
+                      href={book.volumeInfo.infoLink}
+                      thumbnail = {book.volumeInfo.imageLinks.smallThumbnail}
+                      type="success"
+                      className="input-lg">
+                        Save
+                    </ SaveBtn> 
+                   </ BookListItem> 
+                  
               ))
               }
               </BookList>
